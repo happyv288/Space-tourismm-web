@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 
 import crewImage1 from "../assets/crew/image-douglas-hurley.png";
@@ -43,12 +43,14 @@ const crews = [
   },
 ];
 
+type Direction = "left" | "right";
+
 const Crew = () => {
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState("right");
+  const [direction, setDirection] = useState<Direction>("right");
   const [animating, setAnimating] = useState(true);
 
-  const changeCrew = (newIndex) => {
+  const changeCrew = (newIndex: number) => {
     setDirection(newIndex > index ? "right" : "left");
     setAnimating(false);
 
@@ -67,15 +69,7 @@ const Crew = () => {
     >
       <Navbar />
 
-      <div className="pt-10 lg:pt-16">
-        <h2 className="flex uppercase tracking-[4px] text-lg md:text-2xl">
-          <span className="text-white/30 font-bold mr-4">02</span>
-          Meet your crew
-        </h2>
-      </div>
-
       <section className="flex flex-col lg:flex-row items-center justify-between gap-12 pt-6">
-        {/* TEXT */}
         <div
           className={`text-center lg:text-left max-w-xl transition-all duration-500 ${
             animating
@@ -97,7 +91,6 @@ const Crew = () => {
             {crew.description}
           </p>
 
-          {/* DOTS */}
           <div className="flex gap-4 justify-center lg:justify-start mt-10">
             {crews.map((_, i) => (
               <button
@@ -113,7 +106,6 @@ const Crew = () => {
           </div>
         </div>
 
-        {/* IMAGE */}
         <div
           className={`flex justify-center transition-all duration-500 ${
             animating
@@ -126,7 +118,7 @@ const Crew = () => {
           <img
             src={crew.image}
             alt={crew.name}
-            className="h-[320px] md:h-[420px] lg:h-[500px] object-contain transition-transform duration-500 hover:scale-105"
+            className="h-[320px] md:h-[420px] lg:h-[500px] object-contain"
           />
         </div>
       </section>

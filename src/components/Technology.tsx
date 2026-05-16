@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 
 import techImage1 from "../assets/technology/image-launch-vehicle-landscape.jpg";
@@ -7,7 +7,16 @@ import techImage3 from "../assets/technology/image-space-capsule-landscape.jpg";
 
 import desktopBG from "../assets/technology/background-technology-desktop.jpg";
 
-const technologies = [
+type Direction = "left" | "right";
+
+type TechType = {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+};
+
+const technologies: TechType[] = [
   {
     id: 1,
     name: "Launch Vehicle",
@@ -30,11 +39,11 @@ const technologies = [
 ];
 
 const Technology = () => {
-  const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState("right");
-  const [animating, setAnimating] = useState(true);
+  const [index, setIndex] = useState<number>(0);
+  const [direction, setDirection] = useState<Direction>("right");
+  const [animating, setAnimating] = useState<boolean>(true);
 
-  const changeTech = (newIndex) => {
+  const changeTech = (newIndex: number) => {
     setDirection(newIndex > index ? "right" : "left");
     setAnimating(false);
 
@@ -70,7 +79,7 @@ const Technology = () => {
               onClick={() => changeTech(i)}
               className={`w-12 h-12 md:w-16 md:h-16 rounded-full border transition-all duration-300 ${
                 index === i
-                  ? "bg-white text-black scale-110 shadow-lg"
+                  ? "bg-white text-black scale-110"
                   : "hover:bg-white/20 hover:scale-105"
               }`}
             >
@@ -81,12 +90,12 @@ const Technology = () => {
 
         {/* TEXT */}
         <div
-          className={`max-w-xl transition-all duration-500 ease-[cubic-bezier(0.2,0.9,0.2,1)] ${
+          className={`max-w-xl transition-all duration-500 ${
             animating
-              ? "opacity-100 translate-x-0 scale-100"
+              ? "opacity-100 translate-x-0"
               : direction === "right"
-                ? "opacity-0 -translate-x-16 scale-95"
-                : "opacity-0 translate-x-16 scale-95"
+                ? "opacity-0 -translate-x-16"
+                : "opacity-0 translate-x-16"
           }`}
         >
           <p className="uppercase text-gray-400 tracking-[2px] mb-4">
@@ -102,18 +111,18 @@ const Technology = () => {
 
         {/* IMAGE */}
         <div
-          className={`flex justify-center transition-all duration-500 ease-[cubic-bezier(0.2,0.9,0.2,1)] ${
+          className={`flex justify-center transition-all duration-500 ${
             animating
-              ? "opacity-100 translate-x-0 scale-100"
+              ? "opacity-100 translate-x-0"
               : direction === "right"
-                ? "opacity-0 translate-x-20 scale-95"
-                : "opacity-0 -translate-x-20 scale-95"
+                ? "opacity-0 translate-x-20"
+                : "opacity-0 -translate-x-20"
           }`}
         >
           <img
             src={tech.image}
             alt={tech.name}
-            className="w-full max-w-[500px] rounded-lg transition-transform duration-500 hover:scale-105"
+            className="w-full max-w-[500px] rounded-lg hover:scale-105 transition-transform duration-500"
           />
         </div>
       </section>

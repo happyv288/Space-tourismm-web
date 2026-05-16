@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/shared/logo.svg";
 
@@ -12,49 +12,14 @@ const Navbar = () => {
 
   return (
     <nav className="flex items-center justify-between pt-6 text-white relative w-full z-50">
-      {/* LEFT SIDE */}
       <div className="flex items-center flex-1 relative z-20">
-        {/* LOGO */}
         <img src={logo} alt="logo" className="w-10 h-10 md:w-12 md:h-12" />
 
-        {/* DIVIDER LINE */}
-        <div
-          className="
-            hidden lg:block
-            absolute
-            top-1/2
-            left-20
-            right-[-40px]
-            h-[1px]
-            bg-white/20
-            -translate-y-1/2
-            z-30
-          "
-        ></div>
+        <div className="hidden lg:block absolute top-1/2 left-20 right-[-40px] h-[1px] bg-white/20 -translate-y-1/2 z-30"></div>
       </div>
 
-      {/* DESKTOP NAV */}
-      <div
-        className="
-          hidden md:flex
-          bg-white/10
-          backdrop-blur-xl
-          px-6 md:px-10 lg:px-16
-          py-6
-          items-center
-          z-20
-        "
-      >
-        <ul
-          className="
-            flex
-            gap-4 md:gap-8 lg:gap-12
-            text-xs md:text-sm
-            uppercase
-            tracking-[2px]
-            items-center
-          "
-        >
+      <div className="hidden md:flex bg-white/10 backdrop-blur-xl px-6 md:px-10 lg:px-16 py-6 items-center z-20">
+        <ul className="flex gap-4 md:gap-8 lg:gap-12 text-xs md:text-sm uppercase tracking-[2px] items-center">
           <li>
             <Link to="/" className={linkClass}>
               <span className="font-bold hidden lg:inline">00</span>
@@ -89,7 +54,6 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* HAMBURGER */}
       <button
         className="md:hidden z-50 text-3xl"
         onClick={() => setOpen(!open)}
@@ -97,61 +61,30 @@ const Navbar = () => {
         {open ? "✕" : "☰"}
       </button>
 
-      {/* OVERLAY */}
       {open && (
         <div
           className="fixed inset-0 bg-black/50 md:hidden z-30"
           onClick={() => setOpen(false)}
-        ></div>
+        />
       )}
 
-      {/* MOBILE DRAWER */}
       <div
-        className={`
-          fixed top-0 right-0 h-full w-64
-          bg-black/90 backdrop-blur-lg
-          transform transition-transform duration-300
-          md:hidden z-40
-          ${open ? "translate-x-0" : "translate-x-full"}
-        `}
+        className={`fixed top-0 right-0 h-full w-64 bg-black/90 backdrop-blur-lg transition-transform duration-300 md:hidden z-40 ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
       >
-        <ul
-          className="
-            flex flex-col
-            gap-6
-            p-8
-            mt-20
-            text-sm
-            uppercase
-            tracking-[2px]
-          "
-        >
+        <ul className="flex flex-col gap-6 p-8 mt-20 text-sm uppercase tracking-[2px]">
           <li onClick={() => setOpen(false)}>
-            <Link to="/" className="flex items-center gap-3">
-              <span className="text-gray-400">00</span>
-              <span className="text-white">Home</span>
-            </Link>
+            <Link to="/">00 Home</Link>
           </li>
-
           <li onClick={() => setOpen(false)}>
-            <Link to="/destination" className="flex items-center gap-3">
-              <span className="text-gray-400">01</span>
-              <span className="text-white">Destination</span>
-            </Link>
+            <Link to="/destination">01 Destination</Link>
           </li>
-
           <li onClick={() => setOpen(false)}>
-            <Link to="/crew" className="flex items-center gap-3">
-              <span className="text-gray-400">02</span>
-              <span className="text-white">Crew</span>
-            </Link>
+            <Link to="/crew">02 Crew</Link>
           </li>
-
           <li onClick={() => setOpen(false)}>
-            <Link to="/technology" className="flex items-center gap-3">
-              <span className="text-gray-400">03</span>
-              <span className="text-white">Technology</span>
-            </Link>
+            <Link to="/technology">03 Technology</Link>
           </li>
         </ul>
       </div>

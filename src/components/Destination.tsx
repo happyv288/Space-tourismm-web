@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 
 import moonImage from "../assets/destination/image-moon.png";
 import marsImage from "../assets/destination/image-mars.png";
 import europaImage from "../assets/destination/image-europa.png";
 import titanImage from "../assets/destination/image-titan.png";
-
 import desktopBG from "../assets/destination/background-destination-desktop.jpg";
 
 const destinations = [
@@ -42,11 +41,14 @@ const destinations = [
   },
 ];
 
+// ONLY ADD TYPE (no logic change)
+type DestinationType = (typeof destinations)[number];
+
 const Destination = () => {
   const [active, setActive] = useState(destinations[0]);
   const [animate, setAnimate] = useState(true);
 
-  const changePlanet = (planet) => {
+  const changePlanet = (planet: DestinationType) => {
     setAnimate(false);
 
     setTimeout(() => {
