@@ -1,3 +1,5 @@
+import "./App.css";
+
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 
@@ -6,7 +8,7 @@ import Destination from "./components/Destination";
 import Crew from "./components/Crew";
 import Technology from "./components/Technology";
 
-function AnimatedRoutes() {
+const AnimatedRoutes = () => {
   const location = useLocation();
 
   return (
@@ -19,12 +21,14 @@ function AnimatedRoutes() {
       </Routes>
     </AnimatePresence>
   );
-}
+};
 
-export default function App() {
+function App() {
   return (
     <BrowserRouter>
       <AnimatedRoutes />
     </BrowserRouter>
   );
 }
+
+export default App;

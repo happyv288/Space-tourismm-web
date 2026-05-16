@@ -10,7 +10,7 @@ export const pageVariant = {
     filter: "blur(0px)",
     transition: {
       duration: 0.8,
-      ease: [0.25, 1, 0.3, 1],
+      ease: "easeOut", // ✅ FIXED
     },
   },
   exit: {
@@ -19,6 +19,7 @@ export const pageVariant = {
     filter: "blur(8px)",
     transition: {
       duration: 0.4,
+      ease: "easeIn",
     },
   },
 };
@@ -31,10 +32,9 @@ export const floatImage = {
     y: 0,
     transition: {
       duration: 0.9,
-      ease: [0.22, 1, 0.36, 1],
+      ease: "easeOut", // ✅ FIXED
     },
   },
-  exit: { opacity: 0, scale: 0.9, y: -20 },
 };
 
 export const staggerContainer = {
@@ -51,6 +51,6 @@ export const itemFade = {
   show: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6 },
+    transition: { duration: 0.6, ease: "easeOut" },
   },
 };
