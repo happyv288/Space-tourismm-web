@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import { motion, AnimatePresence } from "framer-motion";
+import { pageVariant, floatImage } from "../components/PageTransition";
 
 import moonImage from "../assets/destination/image-moon.png";
 import marsImage from "../assets/destination/image-mars.png";
 import europaImage from "../assets/destination/image-europa.png";
 import titanImage from "../assets/destination/image-titan.png";
+
 import desktopBG from "../assets/destination/background-destination-desktop.jpg";
 
 const destinations = [
@@ -41,29 +44,21 @@ const destinations = [
   },
 ];
 
-// ONLY ADD TYPE (no logic change)
-type DestinationType = (typeof destinations)[number];
-
 const Destination = () => {
   const [active, setActive] = useState(destinations[0]);
-  const [animate, setAnimate] = useState(true);
-
-  const changePlanet = (planet: DestinationType) => {
-    setAnimate(false);
-
-    setTimeout(() => {
-      setActive(planet);
-      setAnimate(true);
-    }, 220);
-  };
 
   return (
-    <div
+    <motion.div
+      variants={pageVariant}
+      initial="hidden"
+      animate="show"
+      exit="exit"
       className="min-h-screen bg-cover bg-center text-white px-6 md:px-10 lg:px-20 pb-32"
       style={{ backgroundImage: `url(${desktopBG})` }}
     >
       <Navbar />
 
+      {/* TITLE (NUMBER KEPT) */}
       <div className="mt-10 flex">
         <h2 className="uppercase tracking-[4px] text-xl">
           <span className="text-gray-500 mr-4">01</span>
@@ -72,45 +67,43 @@ const Destination = () => {
       </div>
 
       <section className="flex flex-col lg:flex-row items-center justify-between gap-20 pt-16">
-        {/* IMAGE */}
-        <div
-          className={`flex justify-center transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
-            animate
-              ? "opacity-100 scale-100 translate-y-0 rotate-0"
-              : "opacity-0 scale-75 translate-y-10 rotate-6"
-          }`}
-        >
-          <img
-            src={active.image}
-            alt={active.name}
-            className="w-52 md:w-72 lg:w-[400px] transition-transform duration-500 hover:scale-110"
-          />
-        </div>
+        {/* IMAGE (WITH ANIMATION) */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active.name}
+            {...floatImage}
+            className="flex justify-center"
+          >
+            <img
+              src={active.image}
+              alt={active.name}
+              className="w-52 md:w-72 lg:w-[400px] transition-transform duration-500 hover:scale-110"
+            />
+          </motion.div>
+        </AnimatePresence>
 
         {/* TEXT */}
-        <div
-          className={`max-w-xl text-center lg:text-left transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
-            animate
-              ? "opacity-100 translate-y-0 scale-100"
-              : "opacity-0 translate-y-10 scale-90"
-          }`}
+        <motion.div
+          key={active.name + "-text"}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-xl text-center lg:text-left"
         >
-          {/* TABS */}
+          {/* TABS (hover underline RESTORED) */}
           <div className="flex gap-8 justify-center lg:justify-start uppercase tracking-[2px] text-gray-300 mb-10">
             {destinations.map((planet) => (
               <button
                 key={planet.name}
-                onClick={() => changePlanet(planet)}
-                className={`relative group transition-all duration-300 ${
-                  active.name === planet.name
-                    ? "text-white scale-110"
-                    : "text-gray-400 hover:text-white"
-                }`}
+                onClick={() => setActive(planet)}
+                className="relative group transition-all duration-300"
               >
                 {planet.name}
 
+                {/* hover underline */}
                 <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full"></span>
 
+                {/* active underline */}
                 {active.name === planet.name && (
                   <span className="absolute left-0 -bottom-1 w-full h-[2px] bg-white"></span>
                 )}
@@ -137,9 +130,9 @@ const Destination = () => {
               <h3 className="text-2xl uppercase">{active.travel}</h3>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
-    </div>
+    </motion.div>
   );
 };
 

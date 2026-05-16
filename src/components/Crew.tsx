@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import { motion, AnimatePresence } from "framer-motion";
 
 import crewImage1 from "../assets/crew/image-douglas-hurley.png";
 import crewImage2 from "../assets/crew/image-mark-shuttleworth.png";
@@ -10,117 +11,80 @@ import desktopBG from "../assets/crew/background-crew-desktop.jpg";
 
 const crews = [
   {
-    id: 1,
     role: "Commander",
     name: "Douglas Hurley",
-    description:
-      "Douglas Gerald Hurley is an American engineer, former Marine Corps pilot and former NASA astronaut.",
+    description: "NASA astronaut.",
     image: crewImage1,
   },
   {
-    id: 2,
     role: "Mission Specialist",
     name: "Mark Shuttleworth",
-    description:
-      "Mark Richard Shuttleworth is the founder and CEO of Canonical.",
+    description: "Founder of Canonical.",
     image: crewImage2,
   },
   {
-    id: 3,
     role: "Pilot",
     name: "Victor Glover",
-    description:
-      "Pilot on the first operational flight of the SpaceX Crew Dragon.",
+    description: "Crew Dragon pilot.",
     image: crewImage3,
   },
   {
-    id: 4,
     role: "Flight Engineer",
     name: "Anousheh Ansari",
-    description:
-      "Anousheh Ansari is an Iranian American engineer and entrepreneur.",
+    description: "Engineer and entrepreneur.",
     image: crewImage4,
   },
 ];
 
-type Direction = "left" | "right";
-
 const Crew = () => {
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState<Direction>("right");
-  const [animating, setAnimating] = useState(true);
-
-  const changeCrew = (newIndex: number) => {
-    setDirection(newIndex > index ? "right" : "left");
-    setAnimating(false);
-
-    setTimeout(() => {
-      setIndex(newIndex);
-      setAnimating(true);
-    }, 200);
-  };
-
   const crew = crews[index];
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center text-white px-6 md:px-10 lg:px-20 overflow-hidden"
+      className="min-h-[100dvh] bg-cover bg-center text-white px-6 md:px-10 lg:px-20"
       style={{ backgroundImage: `url(${desktopBG})` }}
     >
       <Navbar />
 
+      {/* HEADER 02 */}
+      <div className="mt-10 mb-6 text-center lg:text-left">
+        <h2 className="uppercase tracking-[4px] text-xl">
+          <span className="text-gray-500 mr-4">02</span>
+          Meet your crew
+        </h2>
+      </div>
+
       <section className="flex flex-col lg:flex-row items-center justify-between gap-12 pt-6">
-        <div
-          className={`text-center lg:text-left max-w-xl transition-all duration-500 ${
-            animating
-              ? "opacity-100 translate-x-0"
-              : direction === "right"
-                ? "opacity-0 -translate-x-16"
-                : "opacity-0 translate-x-16"
-          }`}
-        >
-          <h3 className="uppercase text-gray-400 text-2xl md:text-3xl mb-4">
-            {crew.role}
-          </h3>
+        <div className="text-center lg:text-left max-w-xl">
+          <h3 className="text-gray-400">{crew.role}</h3>
+          <h1 className="text-5xl uppercase mb-4">{crew.name}</h1>
+          <p className="text-gray-300">{crew.description}</p>
 
-          <h1 className="uppercase text-5xl md:text-6xl lg:text-7xl mb-6">
-            {crew.name}
-          </h1>
-
-          <p className="text-gray-300 leading-8 text-sm md:text-base">
-            {crew.description}
-          </p>
-
-          <div className="flex gap-4 justify-center lg:justify-start mt-10">
+          <div className="flex gap-3 mt-6 justify-center lg:justify-start">
             {crews.map((_, i) => (
               <button
                 key={i}
-                onClick={() => changeCrew(i)}
-                className={`w-4 h-4 rounded-full transition-all duration-300 ${
-                  index === i
-                    ? "bg-white scale-150"
-                    : "bg-white/30 hover:bg-white/70"
+                onClick={() => setIndex(i)}
+                className={`w-3 h-3 rounded-full ${
+                  i === index ? "bg-white" : "bg-white/30"
                 }`}
               />
             ))}
           </div>
         </div>
 
-        <div
-          className={`flex justify-center transition-all duration-500 ${
-            animating
-              ? "opacity-100 translate-x-0"
-              : direction === "right"
-                ? "opacity-0 translate-x-20"
-                : "opacity-0 -translate-x-20"
-          }`}
-        >
-          <img
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={crew.name}
             src={crew.image}
-            alt={crew.name}
-            className="h-[320px] md:h-[420px] lg:h-[500px] object-contain"
+            initial={{ opacity: 0, x: 60, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: -60 }}
+            transition={{ duration: 0.5 }}
+            className="h-[240px] md:h-[420px] lg:h-[500px]"
           />
-        </div>
+        </AnimatePresence>
       </section>
     </div>
   );
